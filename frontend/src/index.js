@@ -1,13 +1,25 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { ConnectedRouter } from 'connected-react-router';
+import configureStore, {history} from './store/configureStore';
+
+const initialState = window.initialReduxState;
+const store = configureStore(history, initialState);
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </ConnectedRouter>
+  </Provider>,
   document.getElementById('root')
 );
 

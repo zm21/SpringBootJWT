@@ -10,4 +10,6 @@ public class UserView {
     private String username;
     private String fullName;
 
+    private String jwt;
+
 }

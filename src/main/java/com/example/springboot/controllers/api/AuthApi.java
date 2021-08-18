@@ -23,7 +23,7 @@ import javax.validation.Valid;
 
 @Tag(name = "Authentication")
 @RestController
-@RequestMapping(path = "api/public")
+@RequestMapping(path = "api/account")
 @RequiredArgsConstructor
 public class AuthApi {
 
@@ -44,8 +44,14 @@ public class AuthApi {
                     .findByUsername(user.getUsername());
             UserView userView = new UserView();
             userView.setUsername(user.getUsername());
+
+
+            String jwt = jwtTokenUtil.generateAccessToken(dbUser);
+            userView.setJwt(jwt);
+
+
             return ResponseEntity.ok()
-                    .header(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateAccessToken(dbUser))
+                    .header(HttpHeaders.AUTHORIZATION, jwt)
                     .body(userView);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
